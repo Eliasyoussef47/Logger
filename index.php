@@ -1,17 +1,25 @@
 <?php
 
-require 'FileLogger.php';
+require 'LoggerCollection.php';
+
+$logger = new LoggerCollection();
+$logger->AddFileLogger("info", "log-errors.txt");
+$logger->AddDatabaseLogger("error");
+
+PrettyPrint($logger);
+
+// use the loggercollection to send message to all configured loggers
+$logger->LogError("this is an error");
+$logger->LogWarning("this is a warning");
+$logger->LogInfo("this is an information message");
 
 
-$everythingLogger = new FileLogger("ALL", "2018-05-16_all_log.txt");
-$errorLogger = new FileLogger("ERROR", "2018-05-16_all_log.txt");
-
-$everythingLogger->Error("Dit is een foutbericht");
-$everythingLogger->Warning("Dit is een waarschuwing");
-$everythingLogger->Info("Dit is een informatiebericht");
-
-$errorLogger->Error("Dit is een foutbericht");
-$errorLogger->Warning("Dit is een waarschuwing");       // deze moet door de FileLogger genegeerd worden, want we willen alleen errors in deze logger
-$errorLogger->Info("Dit is een informatiebericht");     // deze moet door de FileLogger genegeerd worden, want we willen alleen errors in deze logger
 
 
+
+
+function PrettyPrint($var) {
+    echo "<pre>";
+    print_r($var);
+    echo "</pre>";
+}
